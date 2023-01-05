@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import {CreateUserDto} from '@nestjs-microservices/shared/dto'
 
 import { AppService } from './app.service';
 
@@ -6,8 +7,8 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getData() {
-    return this.appService.getData();
+  @Post('signup')
+  createUser(@Body(ValidationPipe) payload: CreateUserDto) {
+    this.appService.createUser(payload);
   }
 }
