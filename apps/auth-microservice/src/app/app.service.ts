@@ -5,15 +5,16 @@ import { randomUUID } from 'crypto';
 
 @Injectable()
 export class AppService {
-  constructor(
-    private readonly usersRepository: UsersRepository
-  ) {}
+  // constructor(
+  //   private readonly usersRepository: UsersRepository
+  // ) {}
 
   createUser(payload: CreateUserDto) {
-    return this.usersRepository.createUser({...payload, id: randomUUID()})
+    console.log(payload)
+    // return this.usersRepository.createUser({...payload, id: randomUUID()})
   }
 
-  getUserById(id: string) {
-    return this.usersRepository.findById(id)
-  }
+  // getUserById(id: string) {
+  //   return this.usersRepository.findById(id)
+  // }
 }
