@@ -1,24 +1,35 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { ClientKafka } from '@nestjs/microservices';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-describe('AppController', () => {
-  let app: TestingModule;
+jest.mock('@nestjs/microservices', () => ({
+  ClientKafka: jest.fn().mockImplementation(() => ({
+    emit: jest.fn(),
+  })),
+}));
 
-  beforeAll(async () => {
-    app = await Test.createTestingModule({
-      controllers: [AppController],
-      providers: [AppService],
-    }).compile();
+describe('AppController', () => {
+  let appService: AppService
+  let appController: AppController
+
+  const mockedKafkaClient = new ClientKafka({});
+
+  beforeEach(() => {
+    appService = new AppService(mockedKafkaClient);
+    appController = new AppController(appService);
   });
 
   describe('getData', () => {
-    it('should return "Welcome to api-gateway!"', () => {
-      const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual({
-        message: 'Welcome to api-gateway!',
-      });
+    it('emit create-user message to Kafka client', () => {
+      const payload = {
+        email: 'foo@test.com',
+        name: 'foo'
+      }
+      appController.createUser(payload)
+
+      expect(mockedKafkaClient.emit).toHaveBeenCalledTimes(1)
+      expect(mockedKafkaClient.emit).toHaveBeenCalledWith('create-user', JSON.stringify(payload))
     });
   });
 });
