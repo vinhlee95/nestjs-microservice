@@ -18,6 +18,7 @@ async function bootstrap() {
         client: {
           brokers: ['localhost:9092'],
         },
+        // Specify the group which we want this consumer to consume messages from
         consumer: {
           groupId: 'auth-consumer',
         },

@@ -15,6 +15,7 @@ import { AppService } from './app.service';
         options: {
           client: {
             clientId: 'auth',
+            // Kafka port
             brokers: ['localhost:9092'],
           },
           // Bypass consumer group registration and only function as a producer

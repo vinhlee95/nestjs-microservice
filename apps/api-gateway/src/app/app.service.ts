@@ -11,6 +11,9 @@ export class AppService {
   ) {}
 
   createUser(payload: CreateUserDto) {
+    /**
+     * Emit a message to Kafka queue, under create-user topic
+     */
     this.client.emit('create-user', JSON.stringify(payload));
   }
 }
