@@ -3,7 +3,7 @@ import {CreateUserDto} from '@nestjs-microservices/shared/dto'
 
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('auth')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
